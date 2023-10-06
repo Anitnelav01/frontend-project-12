@@ -1,14 +1,22 @@
+import axios from 'axios';
+import React, { useEffect, useRef, useState } from 'react';
 import { useFormik } from 'formik';
-import * as Yup from 'yup';
+//import * as Yup from 'yup';
 import {
     Button, Form, Col, Container, Card, Row, FloatingLabel,
 } from 'react-bootstrap';
+import { useLocation, useNavigate, Link } from 'react-router-dom';
+import useAuth from '../hooks/useAuth.jsx';
 import imagePath from '../assets/login.jpeg';
-import { useRef, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import routes from '../routes.js';
 
 const Login = () => {
+    const auth = useAuth();
+    console.log(auth)
+    const [authFailed, setAuthFailed] = useState(false);
     const inputRef = useRef();
+    const location = useLocation();
+    const navigate = useNavigate();
     useEffect(() => {
         inputRef.current.focus();
     }, []);
@@ -17,15 +25,27 @@ const Login = () => {
             username: '',
             password: '',
         },
-        validationSchema: Yup.object({
-            username: Yup.string()
-                .min(6, 'Минимальная длина пароля 6 символов')
-                .typeError('Обязательное поле')
-                .required('Обязательное поле'),
-            password: Yup.string()
-            .typeError('Обязательное поле')
-            .required('Обязательное поле'),
-        }),
+        onSubmit: async (values) => {
+            //console.log(values)
+          setAuthFailed(false);
+
+          try {
+            const res = await axios.post(routes.loginPath(), values);
+            localStorage.setItem('user', JSON.stringify(res.data));
+            //console.log(JSON.stringify(res.data))
+            auth.logIn();
+            const { from } = location.state;
+            navigate(from);
+          } catch (err) {
+            formik.setSubmitting(false);
+          if (err.isAxiosError && err.response.status === 401) {
+            setAuthFailed(true);
+            inputRef.current.select();
+            return;
+          }
+          throw err;
+        }
+    },
     });
     return (
     <Container className='container-fluid h-100'>
@@ -36,43 +56,42 @@ const Login = () => {
                         <Col className='col-12 col-md-6 d-flex align-items-center justify-content-center'>
                             <Card.Img className='rounded-circle' alt='Войти' src={imagePath} />
                         </Col>
-                        <Form className='col-12 col-md-6 mt-3 mt-mb-0'>
+                        <Form onSubmit={formik.handleSubmit} className='col-12 col-md-6 mt-3 mt-mb-0'>
                             <h1 className='text-center mb-4'>
                                 Войти
                             </h1>
                             <Form.Group className='form-floating mb-3'>
-                                <FloatingLabel controlId='username' label='Ваш ник'>
+                                <FloatingLabel label='Ваш ник'>
                                 <Form.Control
-                                    type='text'
                                     onChange={formik.handleChange}
                                     value={formik.values.username}
-                                    onBlur={formik.handleBlur}
                                     disabled={formik.isSubmitting}
                                     placeholder='username'
                                     name='username'
                                     id='username'
                                     autoComplete='username'
+                                    isInvalid={authFailed}
                                     required
                                     ref={inputRef}
                                 />
                                 </FloatingLabel>
                             </Form.Group>
                             <Form.Group className='form-floating mb-3'>
-                                <FloatingLabel controlId='password' label='Пароль'>
+                                <FloatingLabel label='Пароль'>
                                 <Form.Control
-                                    type='text'
+                                    type='password'
                                     onChange={formik.handleChange}
                                     value={formik.values.password}
-                                    onBlur={formik.handleBlur}
                                     disabled={formik.isSubmitting}
                                     placeholder='password'
                                     name='password'
                                     id='password'
                                     autoComplete='current-password'
+                                    isInvalid={authFailed}
                                     required
                                 />
+                                <Form.Control.Feedback type='invalid'>Неверное имя пользователя или пароль</Form.Control.Feedback>
                                 </FloatingLabel>
-                                <Form.Control.Feedback type="invalid" className="invalid-feedback">Неверное имя пользователя или пароль</Form.Control.Feedback>
                             </Form.Group>
                             <Button type='submit' disabled={formik.isSubmitting} className='w-100 mb-3' variant='outline-primary'>Войти</Button>
                         </Form>
