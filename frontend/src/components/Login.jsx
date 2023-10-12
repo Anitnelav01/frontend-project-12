@@ -1,7 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react';
 import { useFormik } from 'formik';
-//import * as Yup from 'yup';
 import {
     Button, Form, Col, Container, Card, Row, FloatingLabel,
 } from 'react-bootstrap';
@@ -12,7 +11,6 @@ import routes from '../routes.js';
 
 const Login = () => {
     const auth = useAuth();
-    console.log(auth)
     const [authFailed, setAuthFailed] = useState(false);
     const inputRef = useRef();
     const location = useLocation();
@@ -26,16 +24,12 @@ const Login = () => {
             password: '',
         },
         onSubmit: async (values) => {
-            //console.log(values)
           setAuthFailed(false);
-
           try {
             const res = await axios.post(routes.loginPath(), values);
             localStorage.setItem('user', JSON.stringify(res.data));
-            //console.log(JSON.stringify(res.data))
             auth.logIn();
-            const { from } = location.state;
-            navigate(from);
+            navigate(location.pathname, { replace: true });
           } catch (err) {
             formik.setSubmitting(false);
           if (err.isAxiosError && err.response.status === 401) {

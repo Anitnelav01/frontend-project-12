@@ -45,7 +45,7 @@ const App = () => (
       <BrowserRouter>
       <Header />
       <Routes>
-        <Route path={routes.chatPagePath()} element={<PrivateRoute>< Chat /></PrivateRoute>} />
+        <Route path={routes.chatPagePath()} element={<PrivateRoute><Chat /></PrivateRoute>} />
         <Route path='/login' element={<Login />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
