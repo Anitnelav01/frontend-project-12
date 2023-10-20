@@ -1,4 +1,4 @@
-import axios from 'axios';
+//import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react';
 import { useFormik } from 'formik';
 import {
@@ -7,30 +7,34 @@ import {
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 import useAuth from '../hooks/useAuth.jsx';
 import imagePath from '../assets/login.jpeg';
-import routes from '../routes.js';
+//import routes from '../routes.js';
 
 const Login = () => {
-    const auth = useAuth();
+    const { logIn } = useAuth();
     const [authFailed, setAuthFailed] = useState(false);
     const inputRef = useRef();
     const location = useLocation();
     const navigate = useNavigate();
+
     useEffect(() => {
         inputRef.current.focus();
     }, []);
+
     const formik = useFormik({
         initialValues: {
             username: '',
             password: '',
         },
-        onSubmit: async (values) => {
+        onSubmit: async ({ username, password }) => {
           setAuthFailed(false);
           try {
-            const res = await axios.post(routes.loginPath(), values);
-            localStorage.setItem('user', JSON.stringify(res.data));
-            auth.logIn();
-            navigate(location.pathname, { replace: true });
-          } catch (err) {
+    await logIn(username, password);
+      const { from } = location.state || {
+      from: { pathname: '/' },
+    };
+    navigate(from);
+        }
+          catch (err) {
             formik.setSubmitting(false);
           if (err.isAxiosError && err.response.status === 401) {
             setAuthFailed(true);
@@ -41,6 +45,7 @@ const Login = () => {
         }
     },
     });
+
     return (
     <Container className='container-fluid h-100'>
         <Row className='justify-content-center align-content-center h-100'>

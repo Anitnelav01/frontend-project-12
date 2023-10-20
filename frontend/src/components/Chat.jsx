@@ -4,16 +4,12 @@ import { useDispatch } from 'react-redux';
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { loadChannels } from '../slices/channelsSlice.js';
+import { useAuthContext } from "../contexts/index.jsx";
 import Channels from './Channels.jsx';
 import { Container, Row } from "react-bootstrap";
 import Messages from './Messages.jsx';
 
-
-import { createContext, useContext } from "react";
-
 const Chat = () => {
-    const AuthContext = createContext({});
-    const useAuthContext = () => useContext(AuthContext);
     const auth = useAuthContext();
     const navigate = useNavigate();
     const dispatch = useDispatch();
