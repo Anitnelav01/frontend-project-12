@@ -8,6 +8,7 @@ import { useAuthContext } from "../contexts/index.jsx";
 import Channels from './Channels.jsx';
 import { Container, Row } from "react-bootstrap";
 import Messages from './Messages.jsx';
+import ModalComponent from "./modals.jsx";
 
 const Chat = () => {
     const auth = useAuthContext();
@@ -42,6 +43,7 @@ const Chat = () => {
     return (
         fetched ? 
         <Container className="h-100 my-4 overflow-hidden rounded shadow">
+            <ModalComponent />
             <Row className="h-100 bg-white flex-md-row">
                 <Channels />
                 <Messages />

@@ -28,11 +28,11 @@ const Login = () => {
         onSubmit: async ({ username, password }) => {
           setAuthFailed(false);
           try {
-    await logIn(username, password);
-      const { from } = location.state || {
-      from: { pathname: '/' },
-    };
-    navigate(from);
+               await logIn(username, password);
+               const { from } = location.state || {
+               from: { pathname: '/' },
+            };
+        navigate(from);
         }
           catch (err) {
             formik.setSubmitting(false);
