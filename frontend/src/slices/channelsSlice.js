@@ -33,7 +33,7 @@ const channelsSlice = createSlice({
         },
     },
         getCurrentChannel(state) {
-            const { channels, /*currentChannelId*/ } = state.channels;
+            const { channels } = state.channels;
             return channels.find((channel) => channel.id === state.currentChannelId);
         },
 });

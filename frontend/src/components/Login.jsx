@@ -1,19 +1,24 @@
-//import axios from 'axios';
+import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react';
 import { useFormik } from 'formik';
 import {
-    Button, Form, Col, Container, Card, Row, FloatingLabel,
+    Button,
+    Form,
+    Col,
+    Container,
+    Card,
+    Row,
+    FloatingLabel,
 } from 'react-bootstrap';
-import { useLocation, useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import useAuth from '../hooks/useAuth.jsx';
 import imagePath from '../assets/login.jpeg';
-//import routes from '../routes.js';
+import routes from '../routes.js';
 
 const Login = () => {
     const { logIn } = useAuth();
     const [authFailed, setAuthFailed] = useState(false);
     const inputRef = useRef();
-    const location = useLocation();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -25,14 +30,12 @@ const Login = () => {
             username: '',
             password: '',
         },
-        onSubmit: async ({ username, password }) => {
+        onSubmit: async (values) => {
           setAuthFailed(false);
           try {
-               await logIn(username, password);
-               const { from } = location.state || {
-               from: { pathname: '/' },
-            };
-        navigate(from);
+            const { data } = await axios.post(routes.loginPath(), values);
+            logIn(data);
+            navigate(routes.chatPagePath(), { replace: true });
         }
           catch (err) {
             formik.setSubmitting(false);
@@ -98,7 +101,7 @@ const Login = () => {
                     <Card.Footer className='p-4'>
                         <div className='text-center'>
                             <span>Нет аккаунта? </span>
-                            <Link to='/signup'>Регистрация</Link>
+                            <Link to={routes.signupPagePath()}>Регистрация</Link>
                         </div>
                     </Card.Footer>
                 </Card>

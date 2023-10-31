@@ -1,5 +1,6 @@
 import imagePath from '../assets/notFound.svg';
 import { Link } from 'react-router-dom';
+import routes from '../routes.js';
 
 const notFound = () => (
     <div className="text-center">
@@ -7,7 +8,7 @@ const notFound = () => (
         <h1 className='h4 text-muted'>Страница не найдена</h1>
         <p className='text-muted'>
         Но вы можете перейти 
-        <Link to='/'>на главную страницу</Link>
+        <Link to={routes.chatPagePath()}>на главную страницу</Link>
         </p>
     </div>
 );

@@ -1,31 +1,22 @@
-import {
-  useState, useCallback, useMemo,
-} from 'react';
-import axios from 'axios';
-import routes from '../routes.js';
+import { useState } from 'react';
 import { AuthContext } from '../contexts/index.jsx';
 
 const AuthProvider = ({ children }) => {
-  const currentUser = JSON.parse(localStorage.getItem('user'));
-  const [user, setUser] = useState(currentUser);
+  const currentUser  = JSON.parse(localStorage.getItem('user'));
+  const [user, setUser] = useState(currentUser ? currentUser.username : null); 
 
-  const logIn = useCallback(async (username, password) => {
-    const { data } = await axios.post(routes.loginPath(), {
-      username,
-      password,
-    });
-    setUser(data);
-    localStorage.setItem('user', JSON.stringify(data));
-  }, []);
+  const logIn = (userData) => {
+    localStorage.setItem('user', JSON.stringify(userData));
+    setUser({ username: userData.username });
+  };
 
-  const logOut = useCallback(async () => {
+  const logOut = () => {
+    localStorage.clear();
     setUser(null);
-    localStorage.removeItem('user');
-  }, []);
-
-  const context = useMemo(() => ({ logIn, user, logOut }), [logIn, user, logOut]);
+  };
+  
   return (
-    <AuthContext.Provider value={context}>
+    <AuthContext.Provider value={{ logOut, logIn, user }}>
       {children}
     </AuthContext.Provider>
   );

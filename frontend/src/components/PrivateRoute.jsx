@@ -2,7 +2,7 @@ import { useAuthContext } from '../contexts/index.jsx';
 import Chat from './Chat.jsx';
 import Login from './Login.jsx';
 
-const PrivateRoute = ({ children }) => {
+const PrivateRoute = () => {
 const { user } = useAuthContext();
 
   return (

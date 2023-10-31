@@ -5,14 +5,13 @@ import {
   Route,
 } from 'react-router-dom';
 import NotFound from './components/NotFound.jsx';
-import Chat from './components/Chat.jsx';
-import Login from './components/Login.jsx';
 import Header from './components/Header.jsx';
 import routes from './routes.js';
 import { SocketContext } from './contexts/index.jsx';
 import { api } from './contexts/socketContext.js';
 import AuthProvider from './components/AuthProvider.jsx';
 import PrivateRoute from './components/PrivateRoute.jsx';
+import SignUp from './components/SignUp.jsx';
 
 const App = () => (
   <AuthProvider>
@@ -21,9 +20,10 @@ const App = () => (
         <BrowserRouter>
         <Header />
         <Routes>
-          <Route path={routes.chatPagePath()} element={<PrivateRoute><Chat /></PrivateRoute>} />
-          <Route path='/login' element={<PrivateRoute><Login /></PrivateRoute>} />
-          <Route path='*' element={<NotFound />} />
+          <Route path={routes.chatPagePath()} element={<PrivateRoute />} />
+          <Route path={routes.loginPagePath()} element={<PrivateRoute />} />
+          <Route path={routes.notFound()} element={<NotFound />} />
+          <Route path={routes.signupPagePath()} element={<SignUp />} />
         </Routes>
         </BrowserRouter>
       </div>

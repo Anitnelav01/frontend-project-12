@@ -5,4 +5,3 @@ export const useAuthContext = () => useContext(AuthContext);
 
 export const SocketContext = createContext(null);
 export const useSocketContext = () => useContext(SocketContext);
-

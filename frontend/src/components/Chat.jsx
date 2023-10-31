@@ -1,14 +1,15 @@
 import React from 'react';
-import axios from "axios";
+import axios from 'axios';
 import { useDispatch } from 'react-redux';
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { loadChannels } from '../slices/channelsSlice.js';
-import { useAuthContext } from "../contexts/index.jsx";
+import { useAuthContext } from '../contexts/index.jsx';
+import routes from '../routes.js';
 import Channels from './Channels.jsx';
-import { Container, Row } from "react-bootstrap";
+import { Container, Row } from 'react-bootstrap';
 import Messages from './Messages.jsx';
-import ModalComponent from "./modals.jsx";
+import ModalComponent from './Modals.jsx';
 
 const Chat = () => {
     const auth = useAuthContext();
@@ -18,7 +19,7 @@ const Chat = () => {
     useEffect(() => {
         const fetchChat = async (token) => {
         try {
-            const { data } = await axios.get('/api/v1/data', {
+            const { data } = await axios.get(routes.usersPath(), {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -27,7 +28,7 @@ const Chat = () => {
           setFetched(true);
         } catch(error) {
             if (error.response.status === 401) {
-                navigate('/login');
+                navigate(routes.loginPagePath());
             } else {
                 throw error;
             }
