@@ -2,6 +2,7 @@ import { useFormik } from "formik";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
 import * as Yup from "yup";
 import signUpImg from "../assets/signup.jpg";
 import { useAuthContext } from "../contexts/index.jsx";
@@ -48,12 +49,17 @@ const SignUp = () => {
         navigate(routes.chatPagePath(), { replace: true });
       } catch (error) {
         console.log(error);
+        if (!error.isAxiosError) {
+          toast.error(t('errors.unknown'));
+          return;//
+      } 
         if (error.response.status === 409) {
           setSignUpFail(true);
           inputRef.current.select();
           return;
+        } else {
+          toast.error(t('errors.network'));
         }
-        console.error(error);
       }
     },
   });

@@ -12,6 +12,7 @@ import {
 } from 'react-bootstrap';
 import { useNavigate, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import useAuth from '../hooks/useAuth.jsx';
 import imagePath from '../assets/login.jpeg';
 import routes from '../routes.js';
@@ -32,22 +33,26 @@ const Login = () => {
             username: '',
             password: '',
         },
-        onSubmit: async (values) => {
-          setAuthFailed(false);
-          try {
-            const { data } = await axios.post(routes.loginPath(), values);
-            logIn(data);
-            navigate(routes.chatPagePath(), { replace: true });
+    onSubmit: async (values) => {
+      setAuthFailed(false);
+      try {
+        const { data } = await axios.post(routes.loginPath(), values);
+        logIn(data);
+        navigate(routes.chatPagePath(), { replace: true });
+      } catch (error) {
+        console.log(error)
+        formik.setSubmitting(false);
+        if (!error.isAxiosError) {
+          toast.error(t('errors.unknown'));
+          return;
         }
-          catch (err) {
-            formik.setSubmitting(false);
-          if (err.isAxiosError && err.response.status === 401) {
-            setAuthFailed(true);
-            inputRef.current.select();
-            return;
-          }
-          throw err;
+        if (error.response.status === 401) {
+          setAuthFailed(true);
+          inputRef.current.select();
+        } else {
+          toast.error(t('errors.network'));
         }
+      }
     },
     });
 

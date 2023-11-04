@@ -19,12 +19,10 @@ const Channels = () => {
     };
 
     const handleRemoveChannnel = (id) => () => {
-        console.log('remove');
         dispatch(openModal({ type: "removeChannel", id }));
     };
 
     const handleRenameChannel = (id) => () => {
-        console.log('rename')
         dispatch(openModal({ type: 'renameChannel', id }));
     };
 

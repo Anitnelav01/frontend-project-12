@@ -3,6 +3,7 @@ import { Form, InputGroup, Button } from "react-bootstrap";
 import * as Yup from 'yup';
 import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
 import { useSocketContext } from "../contexts/index.jsx";
 import useAuth from '../hooks/useAuth.jsx';
 import { useSelector } from "react-redux";
@@ -27,7 +28,13 @@ const InputNewMessage = () => {
                 sendMessage(message);
                 formik.resetForm();
             } catch(error) {
-                throw error;
+                if (!error.isAxiosError) {
+                    toast.error(t('errors.unknown'));
+                    return;
+                } 
+                else {
+                    toast.error(t('errors.network'));
+                }
             }
         },
     });

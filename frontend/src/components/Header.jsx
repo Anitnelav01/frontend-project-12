@@ -10,7 +10,6 @@ const Header = () => {
     const navigate = useNavigate();
     const handlerClick = () => {
         logOut();
-        console.log(logOut());
         navigate(routes.loginPagePath());
     };
     

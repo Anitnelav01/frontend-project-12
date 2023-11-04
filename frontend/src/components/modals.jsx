@@ -5,6 +5,7 @@ import * as Yup from "yup";
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
 import { closeModal } from "../slices/modalSlice.js";
 import { useSocketContext } from "../contexts/index.jsx";
 import { useEffect, useRef } from "react";
@@ -33,11 +34,17 @@ const NewChannelModal = () => {
     onSubmit: async (values) => {
       const channel = { name: values.channelName };
       try {
-      await addChannel(channel);
+        await addChannel(channel);
+        toast.success(t('channels.created'));
       formik.resetForm();
       handleClose();
       } catch(error) {
-          throw error;
+        if (!error.isAxiosError) {
+          toast.error(t('errors.unknown'));
+          return;
+        } else {
+          toast.error(t('errors.network'));
+        }
       }
     },
   });
@@ -62,7 +69,8 @@ const NewChannelModal = () => {
                 onBlur={formik.handleBlur}
                 value={formik.values.channelName}
                 onChange={formik.handleChange}
-                autoFocus
+              autoFocus
+              isInvalid={(formik.errors.name)}
               />
               <label htmlFor="channelName"></label>
               <Form.Control.Feedback></Form.Control.Feedback>
@@ -90,10 +98,16 @@ const RemoveChannelModal = () => {
 
   const handleRemove = async () => {
       try {
-      await removeChannel({ id });
+        await removeChannel({ id });
+        toast.success(t('channels.removed'));
       handleClose();
       } catch(error) {
-          throw error;
+        if (!error.isAxiosError) {
+          toast.error(t('errors.unknown'));
+          return;
+        } else {
+          toast.error(t('errors.network'));
+        }
       }
     };
 
@@ -151,10 +165,15 @@ const RenameChannelModal = () => {
       console.log(channel);
       try {
       await renameChannel(channel);
-      formik.resetForm();
+        formik.resetForm();
+         toast.success(t('channels.renamed'));
       handleClose();
-      } catch(error) {
-          throw error;
+      } catch (error) {
+        if (error.isAxiosError) {
+          toast.error(t('errors.unknown'));
+        } else {
+          toast.error(t('errors.network'));
+        }
       }
     },
   });
@@ -183,7 +202,8 @@ const RenameChannelModal = () => {
                 onBlur={formik.handleBlur}
                 value={formik.values.channelName}
                 onChange={formik.handleChange}
-                ref={inputRef}
+              ref={inputRef}
+              isInvalid={formik.errors.name && formik.touched.name}
               />
               <label htmlFor="channelName"></label>
               <Form.Control.Feedback type="invalid">

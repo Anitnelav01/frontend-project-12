@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 import { loadChannels } from '../slices/channelsSlice.js';
 import { useAuthContext } from '../contexts/index.jsx';
 import routes from '../routes.js';
@@ -12,6 +14,7 @@ import Messages from './Messages.jsx';
 import ModalComponent from './Modals.jsx';
 
 const Chat = () => {
+    const { t } = useTranslation();
     const auth = useAuthContext();
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -26,11 +29,15 @@ const Chat = () => {
             });
           dispatch(loadChannels(data));
           setFetched(true);
-        } catch(error) {
+        } catch (error) {
+            if (!error.isAxiosError) {
+                toast.error(t('errors.unknown'));
+                return;
+            }
             if (error.response.status === 401) {
                 navigate(routes.loginPagePath());
             } else {
-                throw error;
+                toast.error(t('errors.network'));
             }
         }
         };
@@ -38,7 +45,7 @@ const Chat = () => {
     const { token } = JSON.parse(localStorage.getItem('user'));
     fetchChat(token);
     },
-    [auth, dispatch, navigate],
+    [auth, dispatch, navigate, t],
     );
 
     return (
