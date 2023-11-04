@@ -7,15 +7,12 @@ import {
 import NotFound from './components/NotFound.jsx';
 import Header from './components/Header.jsx';
 import routes from './routes.js';
-import { SocketContext } from './contexts/index.jsx';
-import { api } from './contexts/socketContext.js';
 import AuthProvider from './components/AuthProvider.jsx';
 import PrivateRoute from './components/PrivateRoute.jsx';
 import SignUp from './components/SignUp.jsx';
 
 const App = () => (
   <AuthProvider>
-    <SocketContext.Provider value={api}>
       <div className='d-flex flex-column h-100'>
         <BrowserRouter>
         <Header />
@@ -27,7 +24,6 @@ const App = () => (
         </Routes>
         </BrowserRouter>
       </div>
-    </SocketContext.Provider>
   </AuthProvider>
 );
 

@@ -3,8 +3,10 @@ import { Button, ButtonGroup, Col, Dropdown } from "react-bootstrap";
 import { setCurrentChannel } from "../slices/channelsSlice.js";
 import { openModal } from "../slices/modalSlice.js";
 import DropdownToggle from "react-bootstrap/esm/DropdownToggle";
+import { useTranslation } from "react-i18next";
 
 const Channels = () => {
+    const { t } = useTranslation();
     const { channels, currentChannelId } = useSelector((state) => state.channelsInfo);
     const dispatch = useDispatch();
     
@@ -19,7 +21,6 @@ const Channels = () => {
     const handleRemoveChannnel = (id) => () => {
         console.log('remove');
         dispatch(openModal({ type: "removeChannel", id }));
-
     };
 
     const handleRenameChannel = (id) => () => {
@@ -30,7 +31,7 @@ const Channels = () => {
     return (
         <Col className="col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex">
             <div className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
-                <b>Каналы</b>
+                <b>{t('channels.channels')}</b>
                 <Button
                     type="button"
                     variant="vertical"
@@ -67,15 +68,15 @@ const Channels = () => {
                             </Button>
                             <DropdownToggle split className="flex-grow-0" variant="group-veritical">
                                 <span className="visually-hidden">
-                                    Управление каналом
+                                    {t('channels.menu')}
                                 </span>
                             </DropdownToggle>
                             <Dropdown.Menu>
                                 <Dropdown.Item onClick={handleRemoveChannnel(id)}>
-                                    Удалить
+                                    {t('channels.remove')}
                                 </Dropdown.Item>
                                 <Dropdown.Item onClick={handleRenameChannel(id)}>
-                                    Переименовать
+                                    {t('channels.rename')}
                                 </Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
