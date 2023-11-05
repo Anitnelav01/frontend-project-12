@@ -3,6 +3,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
+import leoProfanity from 'leo-profanity';
 import * as Yup from "yup";
 import signUpImg from "../assets/signup.jpg";
 import { useAuthContext } from "../contexts/index.jsx";
@@ -17,6 +18,7 @@ const SignUp = () => {
   const navigate = useNavigate();
   const [signUpFail, setSignUpFail] = useState(false);
   const inputRef = useRef();
+  const badWords = leoProfanity.list();
 
   const formik = useFormik({
     initialValues: {
@@ -29,7 +31,8 @@ const SignUp = () => {
         .trim()
         .required(t("signup.required"))
         .min(3, t("signup.usernameConstraints"))
-        .max(20, t("signup.usernameConstraints")),
+        .max(20, t("signup.usernameConstraints"))
+        .notOneOf(badWords, t("signup.badName")),
       password: Yup.string()
         .trim()
         .required(t("signup.required"))
@@ -39,11 +42,11 @@ const SignUp = () => {
         .required(t("signup.required"))
         .oneOf([Yup.ref("password"), null], t("signup.mustMatch")),
     }),
-    onSubmit: async (values) => {
+    onSubmit: async ({ username, password}) => {
       try {
         const { data } = await axios.post(routes.signupPath(), {
-          username: values.username,
-          password: values.password,
+          username,
+          password,
         });
         logIn(data);
         navigate(routes.chatPagePath(), { replace: true });

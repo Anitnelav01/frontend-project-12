@@ -4,6 +4,7 @@ import * as Yup from 'yup';
 import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
+import leoProfanity from 'leo-profanity';
 import { useSocketContext } from "../contexts/index.jsx";
 import useAuth from '../hooks/useAuth.jsx';
 import { useSelector } from "react-redux";
@@ -22,8 +23,9 @@ const InputNewMessage = () => {
         validationSchema: Yup.object({
             body: Yup.string().trim().required('Required'),
         }),
-        onSubmit: async (values) => {
-            const message = { body: values.body, user: username.username, channelId };
+        onSubmit: async ({ body }) => {
+            const cleanedMessage = leoProfanity.clean(body);
+            const message = { body: cleanedMessage, user:username.username, channelId };
             try {
                 sendMessage(message);
                 formik.resetForm();

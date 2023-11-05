@@ -11,7 +11,7 @@ import routes from '../routes.js';
 import Channels from './Channels.jsx';
 import { Container, Row } from 'react-bootstrap';
 import Messages from './Messages.jsx';
-import ModalComponent from './Modals.jsx';
+import ModalComponent from './ModalComponent.jsx';
 
 const Chat = () => {
     const { t } = useTranslation();
