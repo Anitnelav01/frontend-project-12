@@ -16,7 +16,7 @@ const init = () => {
   leoProfanity.add(censorshipDictionaryRu);
 
   const rollbarConfig = {
-    accessToken: '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',
+    accessToken: 'fe59986981cd4b4286792e73d403fdd5',
     environment: 'testenv',
   };
 
