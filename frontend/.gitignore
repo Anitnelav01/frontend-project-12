@@ -27,4 +27,6 @@ yarn-error.log*
 /playwright/.cache/
 /tests/
 /tests-examples/
-.playwright.config.js
+/playwright-report/
+/.github/
+playwright.config.js
