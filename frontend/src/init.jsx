@@ -14,10 +14,16 @@ import store from "./slices/index.js";
 const init = () => {
   const censorshipDictionaryRu = leoProfanity.getDictionary('ru');
   leoProfanity.add(censorshipDictionaryRu);
+
   const rollbarConfig = {
-    accessToken: process.env.REACT_APP_ROLLBAR_TOKEN,
-    environment: "dev",
+    accessToken: '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',
+    environment: 'testenv',
   };
+
+  function TestError() {
+  const a = 'error';
+  return a;
+}
 
   i18n
     .use(initReactI18next)
@@ -38,7 +44,8 @@ const init = () => {
             <App />
           </SocketContext.Provider>
         </I18nextProvider>
-      </Provider>
+        </Provider>
+        <TestError />
     </ErrorBoundary>
   </RollbarProvider>
   );

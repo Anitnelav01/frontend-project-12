@@ -1,3 +1,6 @@
+lint-frontend:
+	npx eslint frontend/src/
+
 install:
 	npm ci
 
