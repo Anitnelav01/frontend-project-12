@@ -16,7 +16,7 @@ const init = () => {
   leoProfanity.add(censorshipDictionaryRu);
 
   const rollbarConfig = {
-    accessToken: 'fe59986981cd4b4286792e73d403fdd5',
+    accessToken: process.env.REACT_APP_ROLLBAR_ACCESS_TOKEN,
     environment: 'testenv',
   };
 
