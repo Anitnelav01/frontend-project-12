@@ -20,11 +20,6 @@ const init = () => {
     environment: 'testenv',
   };
 
-  function TestError() {
-    const a = null;
-    return a.hello();
-  }
-
   i18n
     .use(initReactI18next)
     .init({
@@ -45,7 +40,6 @@ const init = () => {
           </SocketContext.Provider>
         </I18nextProvider>
         </Provider>
-        <TestError />
     </ErrorBoundary>
   </RollbarProvider>
   );
