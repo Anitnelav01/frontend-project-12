@@ -27,8 +27,8 @@ const Chat = () => {
                     Authorization: `Bearer ${token}`,
                 },
             });
-          dispatch(loadChannels(data));
-          setFetched(true);
+            dispatch(loadChannels(data));
+            setFetched(true);
         } catch (error) {
             if (!error.isAxiosError) {
                 toast.error(t('errors.unknown'));

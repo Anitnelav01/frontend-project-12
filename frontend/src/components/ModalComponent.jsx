@@ -102,7 +102,7 @@ const RemoveChannelModal = () => {
       try {
         await removeChannel({ id });
         toast.success(t('channels.removed'));
-      handleClose();
+        handleClose();
       } catch(error) {
         if (!error.isAxiosError) {
           toast.error(t('errors.unknown'));
@@ -169,8 +169,8 @@ const RenameChannelModal = () => {
       try {
       await renameChannel(channel);
         formik.resetForm();
-         toast.success(t('channels.renamed'));
-      handleClose();
+        toast.success(t('channels.renamed'));
+        handleClose();
       } catch (error) {
         if (error.isAxiosError) {
           toast.error(t('errors.unknown'));

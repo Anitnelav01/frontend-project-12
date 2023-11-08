@@ -3,7 +3,7 @@ import Chat from './Chat.jsx';
 import Login from './Login.jsx';
 
 const PrivateRoute = () => {
-const { user } = useAuthContext();
+  const { user } = useAuthContext();
 
   return (
     user ? (<Chat />) : (<Login />)
