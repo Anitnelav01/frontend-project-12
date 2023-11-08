@@ -16,15 +16,14 @@ const init = () => {
   leoProfanity.add(censorshipDictionaryRu);
 
   const rollbarConfig = {
-    accessToken: "d4a6b1588e104c7895745efd890f5640",
-    captureUncaught: true,
-    captureUnhandledRejections: true,
+    accessToken: 'db5f55ec4fe046f9b8bd66984f0f2270',
+    environment: 'testenv',
   };
 
   function TestError() {
-  const a = 'error';
-  return a;
-}
+    const a = null;
+    return a.hello();
+  }
 
   i18n
     .use(initReactI18next)
