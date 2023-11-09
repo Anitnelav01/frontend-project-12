@@ -33,10 +33,10 @@ const Login = () => {
             username: '',
             password: '',
         },
-    onSubmit: async (values) => {
-      setAuthFailed(false);
+    onSubmit: async ({ username, password }) => {
+        setAuthFailed(false);
       try {
-        const { data } = await axios.post(routes.loginPath(), values);
+        const { data } = await axios.post(routes.loginPath(), { username, password });
         logIn(data);
         navigate(routes.chatPagePath(), { replace: true });
       } catch (error) {

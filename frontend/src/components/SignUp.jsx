@@ -36,10 +36,9 @@ const SignUp = () => {
       password: Yup.string()
         .trim()
         .required(t("signup.required"))
-        .min(3, t("signup.passMin")),
+        .min(6, t("signup.passMin")),
       confirmPassword: Yup.string()
         .trim()
-        .required(t("signup.required"))
         .oneOf([Yup.ref("password"), null], t("signup.mustMatch")),
     }),
     onSubmit: async ({ username, password}) => {
@@ -89,10 +88,10 @@ const SignUp = () => {
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.username}
-                    placeholder={t('signup.username')}
+                    placeholder={t('signup.usernameConstraints')}
                     isInvalid={
-                      (formik.errors.username && formik.touched.username) ||
-                      signUpFail
+                      (formik.errors.username && formik.touched.username)
+                      || signUpFail
                     }
                     ref={inputRef}
                     required
@@ -116,10 +115,10 @@ const SignUp = () => {
                     onBlur={formik.handleBlur}
                     value={formik.values.password}
                     isInvalid={
-                      (formik.errors.password && formik.touched.password) ||
-                      signUpFail
+                      (formik.errors.password && formik.touched.password)
+                      || signUpFail
                     }
-                    placeholder={t('signup.password')}
+                    placeholder={t('signup.passMin')}
                     required
                   />
                   <Form.Label htmlFor="password">{t('signup.password')}</Form.Label>
@@ -128,7 +127,7 @@ const SignUp = () => {
                     tooltip
                     placement="right"
                   >
-                    {formik.errors.password}
+                    {t(formik.errors.password)}
                   </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group className="form-floating mb-3">
@@ -140,15 +139,15 @@ const SignUp = () => {
                     onBlur={formik.handleBlur}
                     value={formik.values.confirmPassword}
                     isInvalid={
-                      (formik.errors.confirmPassword &&
-                        formik.touched.repeatPassword) ||
-                      signUpFail
+                      (formik.errors.confirmPassword
+                        && formik.touched.repeatPassword)
+                      || signUpFail
                     }
-                    placeholder={t(formik.errors.password)}
+                    placeholder={t('signup.mustMatch')}
                     required
                   />
                   <Form.Label htmlFor="confirmPassword">
-                    {t(formik.errors.password)}
+                    {t('signup.confirm')}
                   </Form.Label>
                   <Form.Control.Feedback
                     type="invalid"
