@@ -75,7 +75,7 @@ const Login = () => {
                                     onChange={formik.handleChange}
                                     value={formik.values.username}
                                     disabled={formik.isSubmitting}
-                                    placeholder='username'
+                                    placeholder={t("login.username")}
                                     name='username'
                                     id='username'
                                     autoComplete='username'
@@ -92,7 +92,7 @@ const Login = () => {
                                     onChange={formik.handleChange}
                                     value={formik.values.password}
                                     disabled={formik.isSubmitting}
-                                    placeholder='password'
+                                    placeholder={t("login.password")}
                                     name='password'
                                     id='password'
                                     autoComplete='current-password'
