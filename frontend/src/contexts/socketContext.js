@@ -6,7 +6,6 @@ import { addChannel, removeChannel, renameChannel, setCurrentChannel } from "../
 const socket = io();
 
 socket.on('newMessage', (payload) => {
-    console.log(payload);
     store.dispatch(addMessage(payload));
 });
 
