@@ -19,7 +19,10 @@ const Header = () => {
                 <Navbar.Brand as={Link} to={routes.chatPagePath()}>
                     {t('hexletChat')}
                 </Navbar.Brand>
-                {user ? <Button type='button' className='btn btn-primary' onClick={handlerClick}>{t('logout')}</Button> : null }
+                {user
+                    ? (
+                        <Button type='button' className='btn btn-primary' onClick={handlerClick}>{t('logout')}</Button>
+                    ) : null}
             </Container>
         </Navbar>
     );

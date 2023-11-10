@@ -38,9 +38,8 @@ const Login = () => {
       try {
         const { data } = await axios.post(routes.loginPath(), { username, password });
         logIn(data);
-        navigate(routes.chatPagePath(), { replace: true });
+        navigate(routes.chatPagePath());
       } catch (error) {
-        console.log(error)
         formik.setSubmitting(false);
         if (!error.isAxiosError) {
           toast.error(t('errors.unknown'));
