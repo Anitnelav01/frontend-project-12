@@ -5,7 +5,6 @@ import {
   Route,
 } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
-import "react-toastify/dist/ReactToastify.css";
 import NotFound from './components/NotFound.jsx';
 import Header from './components/Header.jsx';
 import routes from './routes.js';

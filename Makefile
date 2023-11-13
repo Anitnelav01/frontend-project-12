@@ -1,14 +1,14 @@
-lint-frontend:
-	npx eslint frontend/src/
-
 install:
 	npm ci
 
 start-frontend:
-	npm run build --prefix frontend
+	npm start --prefix frontend
 
 start-backend:
-	npx start-server -s ./frontend
+	npx start-server
 
 start:
 	make start-backend & make start-frontend
+
+start-build:
+	npx start-server -s ./frontend/build
