@@ -11,7 +11,7 @@ start-build:
 	npm run build --prefix frontend
 
 start:
-	make start-backend & make start-build & make start-frontend
+	make start-frontend & make start-backend
 
 build:
-	make start-backend & make start-build
+	make start-build & make start-backend
