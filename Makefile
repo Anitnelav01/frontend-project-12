@@ -7,8 +7,11 @@ start-frontend:
 start-backend:
 	npx start-server
 
+start-build:
+	npm run build --prefix frontend
+
 start:
 	make start-backend & make start-frontend
 
-start-build:
-	npx start-server -s ./frontend/build
+build:
+	make start-backend & make start-build
