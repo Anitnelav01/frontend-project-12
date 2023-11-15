@@ -1,3 +1,6 @@
+lint:
+	npx eslint frontend/src/
+
 install:
 	npm ci
 
@@ -14,4 +17,4 @@ start:
 	make start-frontend & make start-backend
 
 build:
-	make start-build & make start-backend
+	make start-backend & make start-build
