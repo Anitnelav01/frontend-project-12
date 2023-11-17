@@ -70,7 +70,6 @@ const Login = () => {
                                 {t('login.header')}
                             </h1>
                             <Form.Group className='form-floating mb-3'>
-                                <FloatingLabel label={t('login.username')}>
                                 <Form.Control
                                     onChange={formik.handleChange}
                                     value={formik.values.username}
@@ -83,10 +82,9 @@ const Login = () => {
                                     required
                                     ref={inputRef}
                                 />
-                                </FloatingLabel>
+                                <Form.Label htmlFor="username">{t('login.username')}</Form.Label>
                             </Form.Group>
                             <Form.Group className='form-floating mb-4'>
-                                <FloatingLabel label={t('login.password')}>
                                 <Form.Control
                                     type='password'
                                     onChange={formik.handleChange}
@@ -99,12 +97,12 @@ const Login = () => {
                                     isInvalid={authFailed}
                                     required
                                 />
-                                <Form.Control.Feedback type="invalid" tooltip>
-                                    {authFailed ? t('login.authFailed') : null}
-                                </Form.Control.Feedback>
-                                </FloatingLabel>
+                                <Form.Label htmlFor="password">{t('login.password')}</Form.Label>                              
+                                    {authFailed ? <Form.Control.Feedback type="invalid" tooltip>{t('login.authFailed')}</Form.Control.Feedback> : null}                           
                             </Form.Group>
-                            <Button type='submit' disabled={formik.isSubmitting} className='w-100 mb-3' variant='outline-primary'>Войти</Button>
+                            <Button type='submit' disabled={formik.isSubmitting} className='w-100 mb-3' variant='outline-primary'>
+                                {t('login.submit')}
+                            </Button>
                         </Form>
                     </Card.Body>
                     <Card.Footer className='p-4'>
