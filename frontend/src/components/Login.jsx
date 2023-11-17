@@ -84,7 +84,7 @@ const Login = () => {
                                 />
                                 </FloatingLabel>
                             </Form.Group>
-                            <Form.Group className='form-floating mb-3'>
+                            <Form.Group className='form-floating mb-4'>
                                 <FloatingLabel label={t('login.password')}>
                                 <Form.Control
                                     type='password'
@@ -98,7 +98,7 @@ const Login = () => {
                                     isInvalid={authFailed}
                                     required
                                 />
-                                <Form.Control.Feedback type='invalid'>{t('login.authFailed')}</Form.Control.Feedback>
+                                <Form.Control.Feedback className='invalid-tooltip' type='invalid'>{t('login.authFailed')}</Form.Control.Feedback>
                                 </FloatingLabel>
                             </Form.Group>
                             <Button type='submit' disabled={formik.isSubmitting} className='w-100 mb-3' variant='outline-primary'>Войти</Button>
