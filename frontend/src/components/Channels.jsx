@@ -1,3 +1,4 @@
+import React, { useRef } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import { Button, ButtonGroup, Col, Dropdown } from "react-bootstrap";
 import { setCurrentChannel } from "../slices/channelsSlice.js";
@@ -7,8 +8,11 @@ import { useTranslation } from "react-i18next";
 
 const Channels = () => {
     const { t } = useTranslation();
-    const { channels, currentChannelId } = useSelector((state) => state.channelsInfo);
+    const { channels, currentChannelId } = useSelector(
+      (state) => state.channelsInfo,
+    );
     const dispatch = useDispatch();
+    const bottom = useRef();
     
     const handleNewChannel = () => {
         dispatch(openModal({ type: "addChannel" }));
@@ -92,7 +96,8 @@ const Channels = () => {
                             {name}
                         </Button>
                     </li>
-                ))}
+                    ))}
+                <li ref={bottom} />
             </ul>
         </Col>
     );
