@@ -23,6 +23,7 @@ const Login = () => {
     const [authFailed, setAuthFailed] = useState(false);
     const inputRef = useRef();
     const navigate = useNavigate();
+    console.log(authFailed)
 
     useEffect(() => {
         inputRef.current.focus();
@@ -98,7 +99,9 @@ const Login = () => {
                                     isInvalid={authFailed}
                                     required
                                 />
-                                 {authFailed && <Form.Control.Feedback className='invalid-tooltip' type="invalid">{t('login.authFailed')}</Form.Control.Feedback>}
+                                <Form.Control.Feedback type="invalid" tooltip>
+                                    {authFailed ? t('login.authFailed') : null}
+                                </Form.Control.Feedback>
                                 </FloatingLabel>
                             </Form.Group>
                             <Button type='submit' disabled={formik.isSubmitting} className='w-100 mb-3' variant='outline-primary'>Войти</Button>
