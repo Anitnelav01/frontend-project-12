@@ -1,16 +1,16 @@
-import { useFormik } from "formik";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import { useTranslation } from "react-i18next";
-import { toast } from "react-toastify";
+import { useFormik } from 'formik';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { useRef, useState } from 'react';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import leoProfanity from 'leo-profanity';
-import * as Yup from "yup";
-import signUpImg from "../assets/signup.jpg";
-import { useAuthContext } from "../contexts/index.jsx";
+import * as Yup from 'yup';
+import signUpImg from '../assets/signup.jpg';
+import { useAuthContext } from '../contexts/index.jsx';
 import routes from '../routes';
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { useRef, useState } from "react";
 
 const SignUp = () => {
   const { t } = useTranslation();
@@ -22,26 +22,26 @@ const SignUp = () => {
 
   const formik = useFormik({
     initialValues: {
-      name: "",
-      password: "",
-      repeatPassword: "",
+      name: '',
+      password: '',
+      repeatPassword: '',
     },
     validationSchema: Yup.object({
       username: Yup.string()
         .trim()
-        .required(t("signup.required"))
-        .min(3, t("signup.usernameConstraints"))
-        .max(20, t("signup.usernameConstraints"))
-        .notOneOf(badWords, t("signup.badName")),
+        .required(t('signup.required'))
+        .min(3, t('signup.usernameConstraints'))
+        .max(20, t('signup.usernameConstraints'))
+        .notOneOf(badWords, t('signup.badName')),
       password: Yup.string()
         .trim()
-        .required(t("signup.required"))
-        .min(6, t("signup.passMin")),
+        .required(t('signup.required'))
+        .min(6, t('signup.passMin')),
       confirmPassword: Yup.string()
         .trim()
-        .oneOf([Yup.ref("password"), null], t("signup.mustMatch")),
+        .oneOf([Yup.ref('password'), null], t('signup.mustMatch')),
     }),
-    onSubmit: async ({ username, password}) => {
+    onSubmit: async ({ username, password }) => {
       try {
         const { data } = await axios.post(routes.signupPath(), {
           username,
@@ -54,11 +54,10 @@ const SignUp = () => {
         if (!error.isAxiosError) {
           toast.error(t('errors.unknown'));
           return;
-      } 
+        }
         if (error.response.status === 409) {
           setSignUpFail(true);
           inputRef.current.select();
-          return;
         } else {
           toast.error(t('errors.network'));
         }

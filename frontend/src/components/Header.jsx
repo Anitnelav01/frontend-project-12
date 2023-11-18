@@ -5,27 +5,27 @@ import useAuth from '../hooks/useAuth.jsx';
 import routes from '../routes.js';
 
 const Header = () => {
-    const { t } = useTranslation();
-    const { logOut, user } = useAuth();
-    const navigate = useNavigate();
-    const handlerClick = () => {
-        logOut();
-        navigate(routes.loginPagePath());
-    };
-    
-    return (
-        <Navbar bg='white' expand='lg' className='shadow-sm'>
-            <Container>
-                <Navbar.Brand as={Link} to={routes.chatPagePath()}>
-                    {t('hexletChat')}
-                </Navbar.Brand>
-                {user
-                    ? (
-                        <Button type='button' className='btn btn-primary' onClick={handlerClick}>{t('logout')}</Button>
-                    ) : null}
-            </Container>
-        </Navbar>
-    );
+  const { t } = useTranslation();
+  const { logOut, user } = useAuth();
+  const navigate = useNavigate();
+  const handlerClick = () => {
+    logOut();
+    navigate(routes.loginPagePath());
+  };
+
+  return (
+    <Navbar bg="white" expand="lg" className="shadow-sm">
+      <Container>
+        <Navbar.Brand as={Link} to={routes.chatPagePath()}>
+          {t('hexletChat')}
+        </Navbar.Brand>
+        {user
+          ? (
+            <Button type="button" className="btn btn-primary" onClick={handlerClick}>{t('logout')}</Button>
+          ) : null}
+      </Container>
+    </Navbar>
+  );
 };
 
 export default Header;
