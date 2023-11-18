@@ -5,7 +5,7 @@ import {
   Route,
 } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
-import "react-toastify/dist/ReactToastify.css";
+import 'react-toastify/dist/ReactToastify.css';
 import NotFound from './components/NotFound.jsx';
 import Header from './components/Header.jsx';
 import routes from './routes.js';
@@ -16,7 +16,7 @@ import SignUp from './components/SignUp.jsx';
 
 const App = () => (
   <AuthProvider>
-    <div className='d-flex flex-column h-100'>
+    <div className="d-flex flex-column h-100">
       <BrowserRouter>
         <Header />
         <Routes>

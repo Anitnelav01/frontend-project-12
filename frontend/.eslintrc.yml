@@ -1,14 +1,9 @@
-# Линтер подключаем именно в папку, созданную create-react-app
-# Все зависимости линтера должны быть установлены на этом уровне,
-# а не в корне проекта
-# Не забудьте удалить ключ eslintConfig из package.json,
-# автоматический созданный при запуске CRA
 env:
   browser: true
   es2021: true
 
-root:
-  true
+extends:
+  - airbnb
 
 parserOptions:
   ecmaFeatures:
@@ -20,6 +15,7 @@ plugins:
   - react
   - functional
   - react-hooks
+  - stylistic
 
 rules:
   import/extensions: 0
@@ -37,3 +33,4 @@ rules:
   react/function-component-definition: [2, { "namedComponents": "arrow-function" }]
   testing-library/no-debug: 0
   react/jsx-filename-extension: [1, { "extensions": [".js", ".jsx"] }]
+  stylistic/js/indent': ['error', 2]
