@@ -8,7 +8,7 @@ start-frontend:
 	npm start --prefix frontend
 
 start-backend:
-	npx start-server
+	npx start-server -a localhost -p 5002
 
 start-build:
 	npm run build --prefix frontend
