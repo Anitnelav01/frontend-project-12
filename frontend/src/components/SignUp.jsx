@@ -50,7 +50,6 @@ const SignUp = () => {
         logIn(data);
         navigate(routes.chatPagePath(), { replace: true });
       } catch (error) {
-        console.log(error);
         if (!error.isAxiosError) {
           toast.error(t('errors.unknown'));
           return;
