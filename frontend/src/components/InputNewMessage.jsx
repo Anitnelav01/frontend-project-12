@@ -13,7 +13,7 @@ const InputNewMessage = () => {
     const { t } = useTranslation();
     const { sendMessage } = useSocketContext();
     const channelId = useSelector((state) => state.channelsInfo.currentChannelId);
-    const { user } = useAuth();
+    const { user: { username } } = useAuth();
     const inputMessageRef = useRef();
     const formik = useFormik({
         initialValues: {
@@ -24,7 +24,7 @@ const InputNewMessage = () => {
         }),
         onSubmit: async ({ body }) => {
             const cleanedMessage = leoProfanity.clean(body);
-            const message = { body: cleanedMessage, user: user.username, channelId };
+            const message = { body: cleanedMessage, user: username, channelId };
             try {
                 sendMessage(message);
                 formik.resetForm();

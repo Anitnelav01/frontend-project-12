@@ -53,7 +53,7 @@ const SignUp = () => {
         console.log(error);
         if (!error.isAxiosError) {
           toast.error(t('errors.unknown'));
-          return;//
+          return;
       } 
         if (error.response.status === 409) {
           setSignUpFail(true);

@@ -21,10 +21,10 @@ const NewChannelModal = () => {
 
   const formik = useFormik({
     initialValues: {
-      channelName: "",
+      name: "",
     },
     validationSchema: Yup.object({
-      channelName: Yup
+      name: Yup
       .string()
       .trim()
       .required(t('modals.required'))
@@ -32,8 +32,8 @@ const NewChannelModal = () => {
       .max(20, t('modals.max'))
       .notOneOf(channelsNames, t('modals.uniq')),
     }),
-    onSubmit: async (values) => {
-      const cleanedName = leoProfanity.clean(values.channelName);
+    onSubmit: async ({ name }) => {
+      const cleanedName = leoProfanity.clean(name);
       const channel = { name: cleanedName };
       try {
         await addChannel(channel);
@@ -64,18 +64,19 @@ const NewChannelModal = () => {
           <Form onSubmit={formik.handleSubmit}>
             <Form.Group>
               <Form.Control
-                name='channelName'
+                name='name'
                 id='name'
                 className="mb-2"
                 disabled={formik.isSubmitting}
-                onBlur={formik.handleBlur}
-                value={formik.values.channelName}
+                value={formik.values.name}
                 onChange={formik.handleChange}
-              autoFocus
-              isInvalid={(formik.errors.name)}
+                autoFocus
+                isInvalid={(formik.errors.name && formik.touched.name)}
               />
-              <label htmlFor="channelName"></label>
-              <Form.Control.Feedback></Form.Control.Feedback>
+              <label className="visually-hidden" htmlFor="name">{t('modals.channelName')}</label>
+              <Form.Control.Feedback type="invalid">
+                {t(formik.errors.name)}
+              </Form.Control.Feedback>
             </Form.Group>
           </Form>
         </Modal.Body>
@@ -118,7 +119,6 @@ const RemoveChannelModal = () => {
   };
 
   return (
-    <>
       <Modal show={isOpened} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>{t('modals.remove')}</Modal.Title>
@@ -135,44 +135,43 @@ const RemoveChannelModal = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-    </>
   );
 };
 
 const RenameChannelModal = () => {
-  const { t } = useTranslation();
   const { renameChannel } = useSocketContext();
   const { isOpened } = useSelector((state) => state.modal);
   const { channels } = useSelector((state) => state.channelsInfo);
-  const id = useSelector((state) => state.modal.extra);
+  const channelId = useSelector((state) => state.modal.extra);
   const channelsNames = channels.map((channel) => channel.name);
+  const channel = channels.find(({ id }) => id === channelId);
   const dispatch = useDispatch();
   const inputRef = useRef();
+  const { t } = useTranslation();
 
   const formik = useFormik({
     initialValues: {
-      channelName: "",
+      name: channel.name,
     },
     validationSchema: Yup.object({
-      channelName: Yup
-      .string()
-      .trim()
-      .required(t("modals.required"))
-      .min(3, t('modals.min'))
-      .max(20, t('modals.max'))
-      .notOneOf(channelsNames, t('modals.uniq')),
+      name: Yup
+        .string()
+        .trim()
+        .required('modals.required')
+        .min(3, 'modals.min')
+        .max(20, 'modals.max')
+        .notOneOf(channelsNames, 'modals.uniq'),
     }),
-    onSubmit: async (values) => {
-      const cleanedName = leoProfanity.clean(values.channelName);
-      const channel = { name: cleanedName, id };
-      console.log(channel);
+    onSubmit: async ({ name }) => {
+      const cleanedName = leoProfanity.clean(name);
+      const data = { name: cleanedName, id: channelId };
       try {
-      await renameChannel(channel);
+        await renameChannel(data);
         formik.resetForm();
         toast.success(t('channels.renamed'));
         handleClose();
       } catch (error) {
-        if (error.isAxiosError) {
+        if (!error.isAxiosError) {
           toast.error(t('errors.unknown'));
         } else {
           toast.error(t('errors.network'));
@@ -186,7 +185,7 @@ const RenameChannelModal = () => {
   };
 
   useEffect(() => {
-    setTimeout(() => inputRef.current.focus());
+    setTimeout(() => inputRef.current.select());
   }, []);
 
   return (
@@ -198,17 +197,16 @@ const RenameChannelModal = () => {
           <Form onSubmit={formik.handleSubmit}>
             <Form.Group>
               <Form.Control
-                name='channelName'
+                name='name'
                 id='name'
                 className="mb-2"
                 disabled={formik.isSubmitting}
-                onBlur={formik.handleBlur}
-                value={formik.values.channelName}
+                value={formik.values.name}
                 onChange={formik.handleChange}
-              ref={inputRef}
-              isInvalid={formik.errors.name && formik.touched.name}
+                ref={inputRef}
+                isInvalid={formik.errors.name && formik.touched.name}
               />
-              <label htmlFor="channelName"></label>
+              <label className="visually-hidden" htmlFor="name">{t('modals.editChannelName')}</label>
               <Form.Control.Feedback type="invalid">
                {t(formik.errors.name)}
               </Form.Control.Feedback>
@@ -235,7 +233,6 @@ const map = {
 
 const ModalComponent = () => {
   const type = useSelector(state => state.modal.type);
-  console.log(type);
   const Component = map[type];
   return (Component === undefined ? null : <Component />);
 };

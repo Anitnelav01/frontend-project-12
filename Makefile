@@ -15,6 +15,3 @@ start-build:
 
 start:
 	make start-frontend & make start-backend
-
-build:
-	make start-backend & make start-build
