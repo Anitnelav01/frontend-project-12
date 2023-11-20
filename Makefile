@@ -1,4 +1,4 @@
-lint:
+lint-frontend:
 	npx eslint frontend/src/
 
 install:
@@ -13,5 +13,8 @@ start-backend:
 start-build:
 	npm run build --prefix frontend
 
+lint:
+	npm run lint --prefix frontend
+	
 start:
 	make start-backend & make start-frontend
