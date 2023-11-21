@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
+import { animateScroll } from 'react-scroll';
 
 const defaultChannelId = 1;
 
@@ -16,6 +17,7 @@ const channelsSlice = createSlice({
     },
     addChannel(state, { payload }) {
       state.channels.push(payload);
+      setTimeout(() => animateScroll.scrollToBottom({ containerId: 'channels-list', to: 'bottom', isDynamic: true }));
     },
     setCurrentChannel(state, { payload: { id } }) {
       state.currentChannelId = id;
@@ -33,13 +35,9 @@ const channelsSlice = createSlice({
       channel.name = payload.name;
     },
   },
-  getCurrentChannel(state) {
-    const { channels } = state.channels;
-    return channels.find((channel) => channel.id === state.currentChannelId);
-  },
 });
 
 export const {
-  loadChannels, addChannel, setCurrentChannel, removeChannel, renameChannel, getCurrentChannel,
+  loadChannels, addChannel, setCurrentChannel, removeChannel, renameChannel,
 } = channelsSlice.actions;
 export default channelsSlice.reducer;

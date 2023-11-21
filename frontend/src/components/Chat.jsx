@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { loadChannels } from '../slices/channelsSlice.js';
-import { useAuthContext } from '../contexts/index.jsx';
 import routes from '../routes.js';
 import Channels from './Channels.jsx';
 import Messages from './Messages.jsx';
@@ -14,7 +13,6 @@ import ModalComponent from './ModalComponent.jsx';
 
 const Chat = () => {
   const { t } = useTranslation();
-  const auth = useAuthContext();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [fetched, setFetched] = useState(false);
@@ -45,7 +43,7 @@ const Chat = () => {
       const { token } = JSON.parse(localStorage.getItem('user'));
       fetchChat(token);
     },
-    [auth, dispatch, navigate, t],
+    [dispatch, navigate, t],
   );
 
   return (

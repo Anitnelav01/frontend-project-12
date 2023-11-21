@@ -10,6 +10,7 @@ import { toast } from 'react-toastify';
 import leoProfanity from 'leo-profanity';
 import { closeModal } from '../slices/modalSlice.js';
 import { useSocketContext } from '../contexts/index.jsx';
+import { setCurrentChannel } from '../slices/channelsSlice';
 
 const NewChannelModal = () => {
   const { t } = useTranslation();
@@ -40,8 +41,9 @@ const NewChannelModal = () => {
       const cleanedName = leoProfanity.clean(name);
       const channel = { name: cleanedName };
       try {
-        await addChannel(channel);
+        const { id } = await addChannel(channel);
         toast.success(t('channels.created'));
+        dispatch(setCurrentChannel({ id }));
         formik.resetForm();
         handleClose();
       } catch (error) {
