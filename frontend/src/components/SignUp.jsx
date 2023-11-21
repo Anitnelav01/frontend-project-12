@@ -1,7 +1,7 @@
 import { useFormik } from 'formik';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { useRef, useState } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { useTranslation } from 'react-i18next';
@@ -43,6 +43,7 @@ const SignUp = () => {
     }),
     onSubmit: async ({ username, password }) => {
       try {
+        setSignUpFail(false);
         const { data } = await axios.post(routes.signupPath(), {
           username,
           password,
@@ -63,6 +64,10 @@ const SignUp = () => {
       }
     },
   });
+
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
 
   return (
     <div className="container-fluid h-100">
@@ -93,7 +98,6 @@ const SignUp = () => {
                     }
                     ref={inputRef}
                     required
-                    autoFocus
                   />
                   <Form.Label htmlFor="username">{t('signup.username')}</Form.Label>
                   <Form.Control.Feedback

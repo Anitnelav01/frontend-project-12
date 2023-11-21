@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { animateScroll } from 'react-scroll';
 import DropdownToggle from 'react-bootstrap/esm/DropdownToggle';
 import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
@@ -33,6 +34,10 @@ const Channels = () => {
   const handleRenameChannel = (id) => () => {
     dispatch(openModal({ type: 'renameChannel', id }));
   };
+
+  useEffect(() => {
+    animateScroll.scrollToBottom({ containerId: 'channels-list', duration: 0 });
+  }, [channels]);
 
   return (
     <Col className="col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex">
