@@ -17,7 +17,7 @@ const SignUp = () => {
   const { logIn } = useAuthContext();
   const navigate = useNavigate();
   const [signUpFail, setSignUpFail] = useState(false);
-  const inputRef = useRef();
+  const inputRef = useRef(null);
   const badWords = leoProfanity.list();
 
   const formik = useFormik({
@@ -42,14 +42,14 @@ const SignUp = () => {
         .oneOf([Yup.ref('password'), null], t('signup.mustMatch')),
     }),
     onSubmit: async ({ username, password }) => {
+      setSignUpFail(false);
       try {
-        setSignUpFail(false);
         const { data } = await axios.post(routes.signupPath(), {
           username,
           password,
         });
         logIn(data);
-        navigate(routes.chatPagePath(), { replace: true });
+        navigate(routes.chatPagePath());
       } catch (error) {
         if (!error.isAxiosError) {
           toast.error(t('errors.unknown'));
@@ -90,7 +90,6 @@ const SignUp = () => {
                     name="username"
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
-                    value={formik.values.username}
                     placeholder={t('signup.usernameConstraints')}
                     isInvalid={
                       (formik.errors.username && formik.touched.username)
@@ -115,7 +114,6 @@ const SignUp = () => {
                     name="password"
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
-                    value={formik.values.password}
                     isInvalid={
                       (formik.errors.password && formik.touched.password)
                       || signUpFail
@@ -139,7 +137,6 @@ const SignUp = () => {
                     name="confirmPassword"
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
-                    value={formik.values.confirmPassword}
                     isInvalid={
                       (formik.errors.confirmPassword
                         && formik.touched.repeatPassword)
