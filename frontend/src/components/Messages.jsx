@@ -10,7 +10,6 @@ const Messages = () => {
   const { t } = useTranslation();
   const auth = useAuth();
   const currentUser = auth.user.username;
-  console.log(currentUser);
   const { channels, currentChannelId } = useSelector((state) => state.channelsInfo);
   const { messages } = useSelector((state) => state.messagesInfo);
   const messagesCurrentChannel = messages.filter(({ channelId }) => channelId === currentChannelId);
