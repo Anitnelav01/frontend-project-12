@@ -4,9 +4,13 @@ import { useSelector } from 'react-redux';
 import { Col } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import InputNewMessage from './InputNewMessage.jsx';
+import useAuth from '../hooks/useAuth.jsx';
 
 const Messages = () => {
   const { t } = useTranslation();
+  const auth = useAuth();
+  const currentUser = auth.user.username;
+  console.log(currentUser);
   const { channels, currentChannelId } = useSelector((state) => state.channelsInfo);
   const { messages } = useSelector((state) => state.messagesInfo);
   const messagesCurrentChannel = messages.filter(({ channelId }) => channelId === currentChannelId);
@@ -27,7 +31,7 @@ const Messages = () => {
         </div>
         <div id="messages-box" className="chat-messages overflow-auto px-5">
           {messagesCurrentChannel.map(({ body, user, id }) => (
-            <div key={id} className="text-break mb-2">
+            <div key={id} className={user === currentUser ? 'text-break mb-2 bg-secondary' : 'text-break mb-2'}>
               <b>{user}</b>
               :
               {` ${body}`}

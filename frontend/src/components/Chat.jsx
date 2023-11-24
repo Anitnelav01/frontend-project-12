@@ -7,12 +7,14 @@ import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { loadChannels } from '../slices/channelsSlice.js';
 import routes from '../routes.js';
+import useAuth from '../hooks/useAuth.jsx';
 import Channels from './Channels.jsx';
 import Messages from './Messages.jsx';
 import ModalComponent from './ModalComponent.jsx';
 
 const Chat = () => {
   const { t } = useTranslation();
+  const auth = useAuth();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [fetched, setFetched] = useState(false);
@@ -40,8 +42,7 @@ const Chat = () => {
         }
       };
 
-      const { token } = JSON.parse(localStorage.getItem('user'));
-      fetchChat(token);
+      fetchChat(auth.user.token);
     },
     [dispatch, navigate, t],
   );

@@ -20,7 +20,7 @@ const App = () => (
         <Routes>
           <Route path={routes.chatPagePath()} element={<PrivateRoute />} />
           <Route path={routes.loginPagePath()} element={<Login />} />
-          <Route path={routes.notFound()} element={<NotFound />} />
+          <Route path="*" element={<NotFound />} />
           <Route path={routes.signupPagePath()} element={<SignUp />} />
         </Routes>
       </BrowserRouter>

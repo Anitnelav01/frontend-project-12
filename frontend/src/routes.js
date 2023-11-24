@@ -1,7 +1,6 @@
 const apiPath = '/api/v1';
 
 const routes = {
-  notFound: () => '*',
   chatPagePath: () => '/',
   loginPagePath: () => '/login',
   signupPagePath: () => '/signup',

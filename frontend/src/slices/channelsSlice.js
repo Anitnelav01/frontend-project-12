@@ -29,6 +29,7 @@ const channelsSlice = createSlice({
       if (state.currentChannelId === id) {
         state.currentChannelId = defaultChannelId;
       }
+      setTimeout(() => animateScroll.scrollToTop({ containerId: 'channels-list', to: 'bottom', isDynamic: true }));
     },
     renameChannel(state, { payload }) {
       const channel = state.channels.find(({ id }) => id === payload.id);
