@@ -3,7 +3,7 @@ import { AuthContext } from '../contexts/index.jsx';
 
 const AuthProvider = ({ children }) => {
   const userData = JSON.parse(localStorage.getItem('user'));
-  const [user, setUser] = useState(userData || null);
+  const [user, setUser] = useState(userData);
 
   const logIn = (data) => {
     localStorage.setItem('user', JSON.stringify(data));
@@ -11,7 +11,7 @@ const AuthProvider = ({ children }) => {
   };
 
   const logOut = () => {
-    localStorage.clear();
+    localStorage.removeItem('user');
     setUser(null);
   };
 

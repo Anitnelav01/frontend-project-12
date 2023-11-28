@@ -28,9 +28,6 @@ const init = () => {
     .init({
       resources,
       fallbackLng: 'ru',
-      interpolation: {
-        escapeValue: false,
-      },
     });
 
   const socket = io();
@@ -51,21 +48,21 @@ const init = () => {
     store.dispatch(renameChannel(payload));
   });
 
-  const socketPromise = (type, data) => new Promise((resolve, reject) => {
-    socket.emit(type, data, (response) => {
-      if (response.status === 'ok') {
+  const generateSocket = (type, data) => new Promise((resolve, reject) => {
+    socket.timeout(5000).emit(type, data, (err, response) => {
+      if (response?.status === 'ok') {
         resolve(response.data);
       } else {
-        reject();
+        reject(err);
       }
     });
   });
 
   const sockets = {
-    sendMessage: (message) => socketPromise('newMessage', message),
-    addChannel: (channel) => socketPromise('newChannel', channel),
-    removeChannel: (id) => socketPromise('removeChannel', id),
-    renameChannel: (channel) => socketPromise('renameChannel', channel),
+    sendMessage: (message) => generateSocket('newMessage', message),
+    addChannel: (channel) => generateSocket('newChannel', channel),
+    removeChannel: (id) => generateSocket('removeChannel', id),
+    renameChannel: (channel) => generateSocket('renameChannel', channel),
   };
 
   return (

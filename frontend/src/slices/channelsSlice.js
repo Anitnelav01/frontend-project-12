@@ -8,7 +8,7 @@ const channelsSlice = createSlice({
   name: 'channelsInfo',
   initialState: {
     channels: [],
-    currentChannelId: 1,
+    currentChannelId: defaultChannelId,
   },
   reducers: {
     loadChannels(state, { payload: { channels, currentChannelId } }) {
